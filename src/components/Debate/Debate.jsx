@@ -1,5 +1,7 @@
 import { Avatar, Button, Typography, Dialog } from "@mui/material";
 import React, { useEffect } from "react";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+const { account, signAndSubmitTransaction } = useWallet()
 import {
   MoreVert,
   Favorite,
@@ -24,6 +26,7 @@ import { likeDebate, commentDebate, participateDebate } from "../../Actions/Deba
 // import User from "../User/User";
 import { getAllDebates } from "../../Actions/Debate";
 import CommentCard from "../CommentCard/CommentCard";
+import { deposit } from "../Aptos";
 const Debate = ({
   debateId,
   title,
@@ -81,6 +84,9 @@ const Debate = ({
     setCommentValue("")
     dispatch(getAllDebates());
   };
+  const handlePayment = async () => {
+    await deposit(account,signAndSubmitTransaction,100);
+  }
   useEffect(() => {
     likes.forEach((item) => {
       if (item._id === user._id) {
@@ -174,9 +180,11 @@ const Debate = ({
             </Link>
           ) : (
             <div className="opt">
+
               <button onClick={handleLeft} className="support-button">SUPPORT</button>
               <button onClick={handleRight} className="contradict-button">CONTRADICT</button>
               <button onClick={handleView} className="audience-button">AUDIENCE</button>
+              <button onclick={handlePayment}>Pay Entry Fees</button>
             </div>
           )}
         </div>

@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { loadUser } from "./Actions/User";
 import Home from "./components/Home/Home"
 import Dbate from './components/Dbate/Dbate';
-import MoneyTransfer from './components/Money_Transfer';
 import NewDebate from './components/NewDebate/NewDebate';
 import Account from './components/Account/Account'
 import Register from './components/Register/Register';

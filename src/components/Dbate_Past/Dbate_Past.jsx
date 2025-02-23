@@ -7,6 +7,9 @@ import { getAllDebates } from "../../Actions/Debate";
 import User from "../User/User"
 // import MoneyTransfer from '../Money_Transfer';
 import useMoneyTransfer from '../Money_Transfer';
+import { deposit, withdraw, getBalance } from '../Aptos';
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+const { account, signAndSubmitTransaction } = useWallet();
 const Dbate_Past = () => {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -57,25 +60,17 @@ const Dbate_Past = () => {
             // Increment total likes count
             totalLikes += likes;
         });
-        const totalAmount = 0.00000000000001;
-        connectMetaMask();
+        // connectMetaMask();
         // Iterate over the users in the map and call withdraw for each user
-        const amounty = "0.00001"
+        const amounty = (userLikesMap.size * 100).toString()
         userLikesMap.forEach((userLikes, userId) => {
             const proportion = userLikes / totalLikes;
-            const amount = proportion * totalAmount;
-            const metamaskId = "0x2C4cDc1f6aDE7CDAf1cad3Ce925dd3962b8Dd6f5"
-            // const amounty = "0.00001"
-            // Call the withdraw function with the calculated amount and userId as receiverId
-            // withdraw(amounty, metamaskId);
-            // deposit(amounty);
+            const amount = proportion * amounty;
+            const aptId = "0x2C4cDc1f6aDE7CDAf1cad3Ce925dd3962b8Dd6f5"
+            // withdraw(amounty, aptId);
+            withdraw(account,signAndSubmitTransaction,amount,aptId);
         });
-        deposit(amounty);
-        deposit(amounty);
         console.log(userLikesMap);
-        // dispatch(finish_debate(debateId));
-        // setIsFinish(true);
-
     };
     // Render
     return (
